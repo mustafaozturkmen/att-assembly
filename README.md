@@ -38,12 +38,14 @@ Each of these has variants:
 The `mov` instruction is used to **copy data** from one location (source) to another (destination). In AT&T syntax, the format is:
 
 ```asm
-mov<size> source, destination
+####################################
+# mov<size> source, destination    #
+#                                  #
+# <size>: 'b' | 'w' | 'd' | ''.    #
+####################################
 
-<size>: 'b' | 'w' | 'd' | ''.
-
-```asm
 mov $5, %rax # moves decimal 5 to rax
 movb $5, (%rax) # moves decimal 5 to memory address where rax points
 
+asm```
 
