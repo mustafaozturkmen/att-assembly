@@ -47,5 +47,5 @@ The `mov` instruction is used to **copy data** from one location (source) to ano
 mov $5, %rax # moves decimal 5 to rax
 movb $5, (%rax) # moves decimal 5 to memory address where rax points
 
-asm```
+```
 
