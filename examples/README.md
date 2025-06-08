@@ -6,10 +6,14 @@ To compile AT&T-style assembly code (`.s` or `.S` files) on Linux, you can use t
 - `ld` — linker
 
 Example:
-    ```bash
-    as hello.s -o hello.o
-    ld hello.o -o hello 
-    ```
-    
+```bash
+# Assemble the source file into an object file
+as hello.s -o hello.o
+
+# Link the object file to create the executable
+ld hello.o -o hello
+
+# Run the executable
+```
 ---
 
