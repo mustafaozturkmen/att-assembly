@@ -151,3 +151,72 @@ sub $8, %rsp              # Stack pointer adjustment: allocate 8 bytes
 add $8, %rsp              # Stack pointer restore: deallocate 8 bytes
 
 ```
+
+## ✖️ `mul` Instruction in AT&T Assembly
+
+The `mul` instruction performs **unsigned multiplication** in AT&T syntax.  
+It multiplies the **accumulator register** by the source operand and stores the result in **specific registers** depending on operand size.
+
+```asm
+
+# BYTE (8-bit)
+movb $5, %al            # AL = 5
+movb $2, %bl            # BL = 2
+mulb %bl                # AX = AL*BL = 10 (result in AX = AH:AL)
+
+# QUAD (64-bit)
+mov $7, %rax            # RAX = 7
+mov $8, %rbx            # RBX = 8
+mul %rbx                # RDX:RAX = RAX*RBX = 56
+
+# Memory operand
+mul 8(%rsp)             # Multiply RAX by value at [RSP + 8], store result in RDX:RAX
+```
+
+## `div` Instruction in AT&T Assembly
+
+The `div` instruction performs **unsigned division** in AT&T syntax.  
+It divides an accumulator register by a source operand and stores the **quotient** and **remainder** in specific registers depending on operand size.
+
+```asm
+# BYTE (8-bit division)
+movb $100, %al           # AL = 100
+movb $10, %bl            # BL = 10
+divb %bl                 # AX/BL → quotient in AL = 10, remainder in AH = 0
+
+# QUAD (64-bit division)
+mov $10000, %rax         # RAX = 10000"
+mov $300, %rsi           # RSI = 300
+xor %rdx, %rdx           # Clear RDX for 64-bit division
+div %rsi                 # RDX:RAX/RSI → quotient in RAX, remainder in RDX
+```
+
+
+## 📦 `push` and `pop` Instructions in AT&T Assembly
+
+The `push` and `pop` instructions are used to **store** and **retrieve** values from the **stack**, which operates in a LIFO (Last-In-First-Out) manner.
+
+---
+
+### 🧠 Stack Reminder
+
+- The **stack grows downward** (toward lower memory addresses).
+- `%rsp` (stack pointer) always points to the **top of the stack**.
+- Each `push` decreases `%rsp`, and each `pop` increases `%rsp`.
+
+---
+
+```asm
+# PUSH Examples
+mov $42, %rax           # Set RAX to 42
+push %rax               # Push 42 onto the stack (RSP -= 8, [RSP] = 42)
+push $10                # Push immediate value 10 onto the stack
+push %rbx               # Push value in RBX
+push (%rcx)             # Push value pointed to by RCX
+push 8(%rbp)            # Push value at [RBP + 8]
+
+# POP Examples
+pop %rdx                # Pop top of stack into RDX (RDX = [RSP], RSP += 8)
+pop %rsi                # Pop next value into RSI
+pop %rdi                # Pop again
+```
