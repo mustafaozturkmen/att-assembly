@@ -1,10 +1,11 @@
-# att-assembly
+# AT&T Assembly
 A beginner-friendly guide to Assembly programming using AT&amp;T syntax (GNU Assembler / GAS).
 
 
 ## Before You Start
 
 If you're new to AT&T assembly syntax, it’s helpful to first look at a simple **Hello World** program written in AT&T syntax.  
+
 This will give you a quick feel for the instruction style, registers, and basic system calls before diving into the details.
 
 Here’s a minimal "Hello World" example in AT&T syntax (Linux x86_64):
@@ -85,7 +86,8 @@ dec 12(%rbp)            # Decrease value at [RBP + 12] by 1
 
 ## `lea` (Load Effective Address) Instruction in AT&T Assembly
 
-The `lea` instruction **loads the address** calculated by the addressing mode into a register.  
+The `lea` instruction **loads the address** calculated by the addressing mode into a register. 
+
 It does **not** load the value at the address, but the computed address itself.
 
 ```asm
@@ -128,7 +130,8 @@ movl 8(%rbp), %eax     # Load value from stack offset +8 into EAX
 
 ## `add` and `sub` Instructions in AT&T Assembly
 
-These instructions perform arithmetic by modifying the destination operand.  
+These instructions perform arithmetic by modifying the destination operand. 
+
 They follow the form: `operation source, destination` (remember: AT&T is **source → destination**).
 
 ```asm
@@ -155,7 +158,8 @@ add $8, %rsp              # Stack pointer restore: deallocate 8 bytes
 
 ## ✖️ `mul` Instruction in AT&T Assembly
 
-The `mul` instruction performs **unsigned multiplication** in AT&T syntax.  
+The `mul` instruction performs **unsigned multiplication** in AT&T syntax. 
+
 It multiplies the **accumulator register** by the source operand and stores the result in **specific registers** depending on operand size.
 
 ```asm
@@ -176,7 +180,8 @@ mul 8(%rsp)             # Multiply RAX by value at [RSP + 8], store result in RD
 
 ## `div` Instruction in AT&T Assembly
 
-The `div` instruction performs **unsigned division** in AT&T syntax.  
+The `div` instruction performs **unsigned division** in AT&T syntax. 
+
 It divides an accumulator register by a source operand and stores the **quotient** and **remainder** in specific registers depending on operand size.
 
 ```asm
@@ -225,6 +230,7 @@ pop %rdi                # Pop again
 ## Linux `syscall` in AT&T Assembly (x86_64)
 
 System calls allow user programs to request services from the Linux kernel (e.g., write to a file, exit, allocate memory).  
+
 In x86_64 Linux, system calls are performed using the `syscall` instruction.
 
 ---
