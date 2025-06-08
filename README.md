@@ -82,7 +82,7 @@ dec (%ebx)              # Decrease value at address in EBX by 1
 dec 12(%rbp)            # Decrease value at [RBP + 12] by 1
 ```
 
-## 🧮 `lea` (Load Effective Address) Instruction in AT&T Assembly
+## `lea` (Load Effective Address) Instruction in AT&T Assembly
 
 The `lea` instruction **loads the address** calculated by the addressing mode into a register.  
 It does **not** load the value at the address, but the computed address itself.
@@ -192,13 +192,13 @@ div %rsi                 # RDX:RAX/RSI → quotient in RAX, remainder in RDX
 ```
 
 
-## 📦 `push` and `pop` Instructions in AT&T Assembly
+## `push` and `pop` Instructions in AT&T Assembly
 
 The `push` and `pop` instructions are used to **store** and **retrieve** values from the **stack**, which operates in a LIFO (Last-In-First-Out) manner.
 
 ---
 
-### 🧠 Stack Reminder
+### Stack Reminder
 
 - The **stack grows downward** (toward lower memory addresses).
 - `%rsp` (stack pointer) always points to the **top of the stack**.
@@ -219,4 +219,61 @@ push 8(%rbp)            # Push value at [RBP + 8]
 pop %rdx                # Pop top of stack into RDX (RDX = [RSP], RSP += 8)
 pop %rsi                # Pop next value into RSI
 pop %rdi                # Pop again
+```
+
+## Linux `syscall` in AT&T Assembly (x86_64)
+
+System calls allow user programs to request services from the Linux kernel (e.g., write to a file, exit, allocate memory).  
+In x86_64 Linux, system calls are performed using the `syscall` instruction.
+
+---
+
+### System Call Convention (Linux x86_64)
+
+| Register | Purpose                   |
+|----------|---------------------------|
+| `%rax`   | System call number        |
+| `%rdi`   | 1st argument              |
+| `%rsi`   | 2nd argument              |
+| `%rdx`   | 3rd argument              |
+| `%rax`   | Return value (after call) |
+
+> 🔸 The syscall number and arguments must be set in the correct registers before calling `syscall`.
+
+---
+
+### Common System Call Numbers
+
+| Syscall          | Number |
+|------------------|--------|
+| `sys_write`      | `1`    |
+| `sys_exit`       | `60`   |
+| `sys_read`       | `0`    |
+| `sys_open`       | `2`    |
+| `sys_close`      | `3`    |
+
+For full list: See `/usr/include/asm/unistd_64.h`
+
+---
+
+### Example: Write "Hello, World!"
+
+```asm
+.section .data
+msg:
+    .asciz "Hello, World!\n"
+
+.section .text
+.globl _start
+_start:
+    movq $1, %rax             # syscall: sys_write
+    movq $1, %rdi             # arg1: file descriptor (stdout)
+    leaq msg(%rip), %rsi      # arg2: pointer to message
+    movq $14, %rdx            # arg3: message length
+    syscall                   # invoke kernel
+
+    movq $60, %rax            # syscall: sys_exit
+    xor %rdi, %rdi            # arg1: exit status 0
+    syscall                   # exit
+
 ```
