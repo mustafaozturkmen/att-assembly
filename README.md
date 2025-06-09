@@ -107,9 +107,9 @@ lea (%rax), %rcx               # Load address in RAX into RCX (copy pointer)
 ### What is %rip-Relative Addressing?
 In x86-64 Linux Assembly, global variables (such as strings or buffers in the ```.data``` or ```.rodata``` sections) are accessed using RIP-relative addressing. This is essential for generating position-independent code (PIC), which is commonly required for shared libraries and modern executables.
 
-> `%rip` is the instruction pointer, i.e., the address of the next instruction being executed.
+- `%rip` is the instruction pointer, i.e., the address of the next instruction being executed.
 
-> `label(%rip)` means: "the address of `label`, calculated relative to the current instruction address."
+- `label(%rip)` means: "the address of `label`, calculated relative to the current instruction address."
 
 ## `mov` Instruction in AT&T Assembly
 
