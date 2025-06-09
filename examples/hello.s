@@ -5,14 +5,14 @@ msg: .asciz "Hello, World!\n"
 .global _start
 
 _start:
-    mov $1, %rax #system out
-    mov $1, %rdi
-    lea msg(%rip), %rsi
-    mov $14, %rdx #message len
+    mov $1, %rax # syscall: write
+    mov $1, %rdi # arg1: stdout
+    lea msg(%rip), %rsi # arg2: message address
+    mov $14, %rdx #arg3: message len
     syscall
     jmp done
 
 done:
     mov $60, %rax
-    xor %rdi, %rdi #exit code: 0
+    xor %rdi, %rdi #exit code: 0 same as mov $0, %rdi
     syscall

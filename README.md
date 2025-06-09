@@ -46,7 +46,7 @@ Registers are small storage locations within the CPU used to perform operations 
 | `%rbp` | `%ebp` | `%bp`  | — / `%bpl`       | Base                       |
 
 
-### 🔹 Extended Registers (x86-64 only)
+### Extended Registers (x86-64 only)
 
 | Register       | Description               |
 |----------------|---------------------------|
@@ -104,6 +104,13 @@ lea -16(%rbp), %rsi            # Load address (RBP - 16) into RSI
 lea (%rax), %rcx               # Load address in RAX into RCX (copy pointer)
 ```
 
+### What is %rip-Relative Addressing?
+In x86-64 Linux Assembly, global variables (such as strings or buffers in the ```.data``` or ```.rodata``` sections) are accessed using RIP-relative addressing. This is essential for generating position-independent code (PIC), which is commonly required for shared libraries and modern executables.
+
+> `%rip` is the instruction pointer, i.e., the address of the next instruction being executed.
+
+> `label(%rip)` means: "the address of `label`, calculated relative to the current instruction address."
+
 ## `mov` Instruction in AT&T Assembly
 
 The `mov` instruction is used to **copy data** from one location (source) to another (destination). In AT&T syntax, the format is:
@@ -156,7 +163,7 @@ add $8, %rsp              # Stack pointer restore: deallocate 8 bytes
 
 ```
 
-## ✖️ `mul` Instruction in AT&T Assembly
+## `mul` Instruction in AT&T Assembly
 
 The `mul` instruction performs **unsigned multiplication** in AT&T syntax. 
 
